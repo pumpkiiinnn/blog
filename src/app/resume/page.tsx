@@ -57,18 +57,18 @@ export default function Page() {
             <TypedText>whoami</TypedText>
             <TypedContent>
               <p>
-                Hi, I&apos;m <strong>ZHANG YU</strong>, in Chinese my name is{' '}
-                <strong>张宇</strong>.
+                Hi, I&apos;m <strong>Zoey Wang</strong>, in Chinese my name is{' '}
+                <strong>竹禹</strong>.
               </p>
               <p>
-                I am a senior front-end engineer who have been involving in
-                front-end development since <strong>2018</strong>, focusing on
+                I am a backend engineer who have been involving in
+                backend development since <strong>2020</strong>, focusing on
                 building aesthetically pleasing and highly interactive user
-                interfaces by <code>React</code>.
+                interfaces by <code>Java</code>.
               </p>
               <p>
                 I have amassed substantial practical experience in the{' '}
-                <code>React</code> technology stack.
+                <code>Java</code> technology stack.
               </p>
             </TypedContent>
             <TypedText afterDelay={1000}>ls</TypedText>
