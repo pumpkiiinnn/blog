@@ -13,7 +13,7 @@ import Link from 'next/link'
 
 import { GiscusScript } from '@/components/giscus'
 import { Markdown } from '@/markdown'
-import { Alert, CodeGroup, Details, Pre } from '@/markdown/components'
+import {Alert, CodeGroup, Details, Mermaid, Pre} from '@/markdown/components'
 import { TwoslashTooltip } from '@/markdown/twoslash/tooltip'
 import { TwoslashTrigger } from '@/markdown/twoslash/triger'
 import { queryAllPosts } from '@/service'
@@ -113,6 +113,7 @@ export default async function Page({ params }: PageProps) {
             Alert,
             CodeGroup,
             Details,
+            Mermaid,
             IconAlertTriangle,
             IconBug,
             IconBulb,
