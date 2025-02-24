@@ -112,8 +112,32 @@ export const queryPinnedItems = cache(() =>
 
 export const queryAllLabels = cache(() => client.queryLabels())
 
-export const queryAllPosts = cache(() =>
-  client.search({ body: true, bodyText: true }),
-)
+// 预处理 Markdown 内容，修复 HTML 标签问题
+function preprocessMarkdown(content: string): string {
+  // 修复 img 标签嵌套问题
+  content = content.replace(/<img([^>]*)>\s*<\/img>/g, '<img$1 />')
+  content = content.replace(/<img([^>]*)>(?![\s]*\/)/g, '<img$1 />')
+  
+  // 修复 a 标签内的 img 标签问题
+  content = content.replace(/<a([^>]*)>\s*<img([^>]*)>\s*<\/a>/g, '<a$1><img$2 /></a>')
+  
+  return content
+}
+
+export const queryAllPosts = cache(async () => {
+  const result = await client.search({ body: true, bodyText: true })
+  
+  // 预处理每个帖子的内容
+  if (result.search?.nodes) {
+    result.search.nodes = result.search.nodes.map(node => {
+      if (node.body) {
+        node.body = preprocessMarkdown(node.body)
+      }
+      return node
+    })
+  }
+  
+  return result
+})
 
 export const queryByLabel = cache((label: string) => client.search({ label }))

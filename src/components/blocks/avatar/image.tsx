@@ -22,7 +22,6 @@ export const AvatarImage = () => {
       loading='eager'
       placeholder='empty'
       src={avatarImg}
-      width={280}
-    />
+      width={280} />
   )
 }

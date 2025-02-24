@@ -106,22 +106,35 @@ export default async function Page({ params }: PageProps) {
           </span>
         </div>
       </header>
-      <article className='prose prose-slate max-w-none dark:prose-invert prose-code:break-words prose-pre:px-5 dark:prose-img:brightness-75 max-xl:col-start-2 max-sm:prose-pre:rounded-none sm:prose-img:rounded'>
-        <Markdown
-          source={body!}
-          useMDXComponents={() => ({
-            Alert,
-            CodeGroup,
-            Details,
-            IconAlertTriangle,
-            IconBug,
-            IconBulb,
-            IconInfoSquareRounded,
-            TwoslashTooltip,
-            TwoslashTrigger,
-            pre: Pre,
-          })}
-        />
+      <article className='prose prose-zinc max-w-none dark:prose-invert prose-pre:p-0 prose-pre:bg-transparent prose-img:rounded-xl prose-img:shadow-lg max-xl:col-start-2'>
+        <div className='relative'>
+          {process.env.NODE_ENV === 'development' && (
+            <div className='bg-yellow-100 p-2 mb-4 rounded text-sm'>
+              Debug Info:
+              <br />
+              Article ID: {id}
+              <br />
+              Title: {title}
+              <br />
+              Labels: {labels.nodes.map(node => node.name).join(', ')}
+            </div>
+          )}
+          <Markdown
+            source={body!}
+            useMDXComponents={() => ({
+              Alert,
+              CodeGroup,
+              Details,
+              IconAlertTriangle,
+              IconBug,
+              IconBulb,
+              IconInfoSquareRounded,
+              TwoslashTooltip,
+              TwoslashTrigger,
+              pre: Pre,
+            })}
+          />
+        </div>
         <GiscusScript number={number} repo={`${repoOwner}/${repoName}`} />
       </article>
       <aside className='sticky top-32 ml-auto h-fit w-[22ch] max-xl:hidden'>
