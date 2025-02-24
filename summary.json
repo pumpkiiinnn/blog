@@ -1,5 +1,5 @@
 {
-  "64": "Overview of working with webpack, loader for file and style, plugins, optimization techniques like Tree Shaking and Code Splitting.",
+  "5": "利用工作流辅助AI进行代码规范优化：告别记忆负担，拥抱智能开发",
   "65": "Introduction to TypeScript utility types including keyof, in, mapped types, Partial, Required, Readonly, Pick, Record, Exclude, Extract, Omit, NonNullable, Parameters, ConstructorParameters, ReturnType, and InstanceType.",
   "66": "Setting up a Linux VPS with Nginx, domain, SSL, and Trojan for secure web browsing. BBR optimization for Ubuntu.",
   "67": "User expresses confusion in learning and finds comfort in exploring Swift UI over Flutter similarities. Topics included: declarations, optionals, strings, arrays, dictionaries, flow control, functions, closures, classes, enums, structs, protocols, and extensions.",

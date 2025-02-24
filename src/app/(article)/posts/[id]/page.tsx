@@ -13,7 +13,7 @@ import Link from 'next/link'
 
 import { GiscusScript } from '@/components/giscus'
 import { Markdown } from '@/markdown'
-import { Alert, CodeGroup, Details, Pre } from '@/markdown/components'
+import {Alert, CodeGroup, Details, Mermaid, Pre} from '@/markdown/components'
 import { TwoslashTooltip } from '@/markdown/twoslash/tooltip'
 import { TwoslashTrigger } from '@/markdown/twoslash/triger'
 import { queryAllPosts } from '@/service'
@@ -135,6 +135,23 @@ export default async function Page({ params }: PageProps) {
             })}
           />
         </div>
+      <article className='prose prose-slate max-w-none dark:prose-invert prose-code:break-words prose-pre:px-5 dark:prose-img:brightness-75 max-xl:col-start-2 max-sm:prose-pre:rounded-none sm:prose-img:rounded'>
+        <Markdown
+          source={body!}
+          useMDXComponents={() => ({
+            Alert,
+            CodeGroup,
+            Details,
+            Mermaid,
+            IconAlertTriangle,
+            IconBug,
+            IconBulb,
+            IconInfoSquareRounded,
+            TwoslashTooltip,
+            TwoslashTrigger,
+            pre: Pre,
+          })}
+        />
         <GiscusScript number={number} repo={`${repoOwner}/${repoName}`} />
       </article>
       <aside className='sticky top-32 ml-auto h-fit w-[22ch] max-xl:hidden'>

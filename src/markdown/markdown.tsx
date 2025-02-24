@@ -21,10 +21,13 @@ import {
   bundledThemes,
   createHighlighter,
 } from 'shiki/bundle/full'
+import { visit } from 'unist-util-visit'
 
+import { Mermaid, Pre } from '@/markdown/components'
+
+import { rehypeGithubAlert } from './plugins'
 import { findCodeText, rehypeGithubAlert, rehypeFixTags } from './plugins'
 import { rendererMdx } from './twoslash/renderMdx'
-import { visit } from 'unist-util-visit'
 
 import type { RehypeShikiOptions } from '@shikijs/rehype'
 
@@ -85,6 +88,7 @@ function preprocessMarkdown(content: string): string {
 export async function Markdown(props: MarkdownProps) {
   const { source, useMDXComponents } = props
 
+
   console.log('[Debug] Processing Markdown content')
 
   // 预处理 Markdown 内容
@@ -105,17 +109,68 @@ export async function Markdown(props: MarkdownProps) {
             defaultLang: 'text',
           },
         ],
+        // eslint-disable-next-line unicorn/consistent-function-scoping
+        () => tree => {
+          visit(tree, 'element', node => {
+            if (
+              node.tagName === 'pre' &&
+              node.children?.[0]?.type === 'element' &&
+              node.children[0].tagName === 'code'
+            ) {
+              const codeNode = node.children[0]
+              const lang = codeNode.properties?.className?.[0]?.replace(
+                'language-',
+                '',
+              )
+
+              if (lang === 'mermaid') {
+                const content = codeNode.children?.[0]?.value || ''
+
+                node.tagName = 'div'
+                node.properties = {
+                  className: ['mermaid-wrapper'],
+                }
+                node.children = [
+                  {
+                    children: [
+                      {
+                        type: 'text',
+                        value: content,
+                      },
+                    ],
+                    properties: {
+                      className: ['mermaid'],
+                      'data-content': content,
+                    },
+                    tagName: 'div',
+                    type: 'element',
+                  },
+                ]
+              }
+            }
+          })
+        },
         [
           rehypeShikiFromHighlighter,
           highlighter,
           {
             parseMetaString(meta, node) {
+
+              const code = node.children[0]
+              if (code.type === 'element' && code.tagName === 'code') {
+                const lang = code.properties.className?.[0]?.replace(
+                  'language-',
+                  '',
+                )
+
+                if (lang === 'mermaid') {
+                  return { skip: true }
+                }
+              }
+
               const metaData = meta.split(' ')
               const fileName = metaData.find(item => path.extname(item) !== '')
-              const codeText = findCodeText(node)
-
               return {
-                content: codeText?.value,
                 'data-file': fileName,
               }
             },
@@ -140,6 +195,23 @@ export async function Markdown(props: MarkdownProps) {
         ],
       ]}
       remarkPlugins={[remarkGfm]}
+      source={source}
+      //@ts-expect-error 能力有限
+      useMDXComponents={components => ({
+        div(props) {
+          if (props.className?.includes('mermaid-wrapper')) {
+            const content = props.children?.props?.['data-content']
+            return <Mermaid chart={content} />
+          }
+          return <div {...props} />
+        },
+        pre(props) {
+          return <Pre {...props} />
+        },
+        //@ts-expect-error 能力有限
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        ...useMDXComponents?.(components),
+      })}
       useMDXComponents={useMDXComponents}
     />
   )

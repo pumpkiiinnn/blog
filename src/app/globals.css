@@ -84,4 +84,12 @@
   .animation-breath {
     animation: breath ease 2s alternate infinite;
   }
+
+  .mermaid {
+    @apply max-w-full;
+  }
+  
+  .dark .mermaid {
+    @apply brightness-90;
+  }
 }
