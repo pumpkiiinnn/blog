@@ -79,9 +79,9 @@ export default async function Page({ params }: PageProps) {
     <main className='m-auto grid grid-cols-[1fr_min(80ch,100%)_1fr] justify-center bg-[linear-gradient(to_bottom,transparent,rgb(var(--surface)/1)_150px,rgb(var(--surface)/1)_calc(100%_-_150px),transparent_100%)] px-4 py-28 md:px-8 xl:grid-cols-[80ch_30ch]'>
       <header className='mb-24 w-fit space-y-8 max-xl:col-start-2 xl:col-span-2'>
         <span className='text-color-2'>
-          <small>{createDate}</small>
+          <small className='text-color-2'>{createDate}</small>
           {showLastUpdateTime && (
-            <small className='ml-4 rounded bg-brand/10 px-1.5 py-1 text-brand'>
+            <small className='text-color-2 ml-4 rounded bg-brand/10 px-1.5 py-1 text-brand'>
               Last Updated: {updateDate}
             </small>
           )}
@@ -106,7 +106,7 @@ export default async function Page({ params }: PageProps) {
           </span>
         </div>
       </header>
-      <article className='prose prose-zinc max-w-none dark:prose-invert prose-pre:p-0 prose-pre:bg-transparent prose-img:rounded-xl prose-img:shadow-lg max-xl:col-start-2'>
+      <article className='prose prose-zinc max-w-none dark:prose-invert prose-pre:p-0 prose-pre:bg-transparent prose-img:rounded-xl prose-img:shadow-lg prose-code:break-words prose-pre:px-5 dark:prose-img:brightness-75 max-xl:col-start-2 max-sm:prose-pre:rounded-none sm:prose-img:rounded'>
         <div className='relative'>
           {process.env.NODE_ENV === 'development' && (
             <div className='bg-yellow-100 p-2 mb-4 rounded text-sm'>
@@ -125,6 +125,7 @@ export default async function Page({ params }: PageProps) {
               Alert,
               CodeGroup,
               Details,
+              Mermaid,
               IconAlertTriangle,
               IconBug,
               IconBulb,
@@ -135,23 +136,6 @@ export default async function Page({ params }: PageProps) {
             })}
           />
         </div>
-      <article className='prose prose-slate max-w-none dark:prose-invert prose-code:break-words prose-pre:px-5 dark:prose-img:brightness-75 max-xl:col-start-2 max-sm:prose-pre:rounded-none sm:prose-img:rounded'>
-        <Markdown
-          source={body!}
-          useMDXComponents={() => ({
-            Alert,
-            CodeGroup,
-            Details,
-            Mermaid,
-            IconAlertTriangle,
-            IconBug,
-            IconBulb,
-            IconInfoSquareRounded,
-            TwoslashTooltip,
-            TwoslashTrigger,
-            pre: Pre,
-          })}
-        />
         <GiscusScript number={number} repo={`${repoOwner}/${repoName}`} />
       </article>
       <aside className='sticky top-32 ml-auto h-fit w-[22ch] max-xl:hidden'>
